@@ -7,10 +7,14 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Container from './components/share/Container';
 import AppBar from './components/AppBar';
-// import { authOperations } from './redux/auth';
-// import { connect } from 'react-redux';
+import authOps from './redux/auth/auth-operations';
+import { connect } from 'react-redux';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onGetCurrentUser();
+  }
+
   render() {
     return (
       <Container>
@@ -27,4 +31,8 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = {
+  onGetCurrentUser: authOps.getCurrentUser,
+};
+
+export default connect(null, mapDispatchToProps)(App);

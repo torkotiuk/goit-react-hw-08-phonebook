@@ -4,7 +4,10 @@ import {
   combineReducers,
 } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+import storage from 'redux-persist/lib/storage';
 import {
+  persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -24,9 +27,16 @@ const middleware = [
   logger,
 ];
 
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
+
 const rootReducer = combineReducers({
   contacts: contactsReducer,
-  auth: authReducer,
+  // auth: authReducer,
+  auth: persistReducer(authPersistConfig, authReducer),
 });
 const store = configureStore({
   reducer: rootReducer,
@@ -34,4 +44,6 @@ const store = configureStore({
   devtools: process.env.NODE_ENV === 'development',
 });
 
-export default store;
+// export default store;
+const persistor = persistStore(store);
+export default { store, persistor };

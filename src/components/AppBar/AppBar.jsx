@@ -14,17 +14,17 @@ const styles = {
   },
 };
 
-const AppBar = ({ isAuthenificated }) => {
+const AppBar = ({ isAuthenticated }) => {
   return (
     <header style={styles.header}>
       <Navigation />
-      {isAuthenificated ? <NavUserMenu /> : <NavAuth />}
+      {isAuthenticated ? <NavUserMenu /> : <NavAuth />}
     </header>
   );
 };
 
 const mapStateToProps = state => ({
-  isAuthenificated: authSelectors.getIsAuthenificated(state),
+  isAuthenticated: authSelectors.getIsAuthenticated(state),
 });
 
 export default connect(mapStateToProps)(AppBar);
