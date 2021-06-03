@@ -6,6 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 // ================
 import Stat from '../Stat';
 // import styles from './ContactList.module.scss';
@@ -13,9 +15,6 @@ import Stat from '../Stat';
 import { connect } from 'react-redux';
 import oper from '../../redux/phonebook/contacts-operations';
 import { getVisibleContacts } from '../../redux/phonebook/contacts-selectors';
-
-// import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 const ContactList = ({ items, onDeleteContact, children }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <div className={classes.TitleContainer}>
@@ -56,52 +56,36 @@ const ContactList = ({ items, onDeleteContact, children }) => {
         <Stat />
       </div>
       {children}
-      {/* {items.map(contact => (
-        <li key={contact.id} className={styles.ContactList__item}>
-          <p>{contact.name}</p>
-          <p className={classes.number}>{contact.number}</p>
-          <Button
-            variant="contained"
-            type="button"
-            onClick={() => onDeleteContact(contact.id)}
-          >
-            Delete
-          </Button>
-        </li>
-      ))} */}
-      <h3>---------- ------------ -----------</h3>
-      <>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="left">Number</TableCell>
-                <TableCell align="left"></TableCell>
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="left">Number</TableCell>
+              <TableCell align="left"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map(({ id, name, number }) => (
+              <TableRow key={id}>
+                <TableCell component="th" scope="row">
+                  {name}
+                </TableCell>
+                <TableCell align="left">{number}</TableCell>
+                <TableCell align="right">
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => onDeleteContact(id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map(({ id, name, number }) => (
-                <TableRow key={id}>
-                  <TableCell component="th" scope="row">
-                    {name}
-                  </TableCell>
-                  <TableCell align="left">{number}</TableCell>
-                  <TableCell align="left">
-                    <Button
-                      variant="contained"
-                      type="button"
-                      onClick={() => onDeleteContact(id)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

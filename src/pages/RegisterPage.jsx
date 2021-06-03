@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import authOper from '../redux/auth/auth-operations';
-// import axios from 'axios';
 
-const styles = {
-  form: {
-    width: 320,
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-};
+//styles
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import scss from './RegisterPage.module.scss';
 
 class RegisterPage extends Component {
   state = {
@@ -28,60 +21,67 @@ class RegisterPage extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    // axios
-    //   .post('https://connections-api.herokuapp.com/users/signup')
-    //   .then(response => {
-    //     console.log(response);
-    //   });
-
     this.props.onRegister(this.state);
-
     this.setState({ name: '', email: '', password: '' });
   };
 
   render() {
     const { name, email, password } = this.state;
-
     return (
-      <div>
-        <h1>Register page</h1>
+      <div className={scss.Container}>
+        <h1 className={scss.Title}>Register page</h1>
 
         <form
           onSubmit={this.handleSubmit}
-          style={styles.form}
+          className={scss.form}
           autoComplete="off"
         >
-          <label style={styles.label}>
-            Name
-            <input
+          <div className={scss.Items}>
+            <TextField
+              className={scss.Items}
+              id="outlined-basic"
+              fullWidth
+              label="Name"
+              variant="outlined"
               type="text"
               name="name"
               value={name}
               onChange={this.handleChange}
             />
-          </label>
+          </div>
 
-          <label style={styles.label}>
-            E-mail
-            <input
+          <div className={scss.Items}>
+            <TextField
+              className={scss.Items}
+              id="outlined-basic"
+              fullWidth
+              label="Email"
+              variant="outlined"
               type="email"
               name="email"
               value={email}
               onChange={this.handleChange}
             />
-          </label>
+          </div>
 
-          <label style={styles.label}>
-            Password
-            <input
+          <div className={scss.Items}>
+            <TextField
+              id="outlined-basic"
+              fullWidth
+              label="Password"
+              variant="outlined"
               type="password"
               name="password"
               value={password}
               onChange={this.handleChange}
             />
-          </label>
+          </div>
 
-          <button type="submit">Register</button>
+          <div className={scss.Btn}>
+            <Button type="submit" variant="contained" size="big">
+              Register
+            </Button>
+          </div>
         </form>
       </div>
     );

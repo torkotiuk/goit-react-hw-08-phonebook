@@ -3,7 +3,7 @@ import {
   getDefaultMiddleware,
   combineReducers,
 } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -24,7 +24,7 @@ const middleware = [
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-  logger,
+  // logger,
 ];
 
 const authPersistConfig = {
@@ -46,4 +46,5 @@ const store = configureStore({
 
 // export default store;
 const persistor = persistStore(store);
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { store, persistor };

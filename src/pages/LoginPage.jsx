@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import authOper from '../redux/auth/auth-operations';
 
+//styles
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import scss from './RegisterPage.module.scss';
+
 const styles = {
   form: {
     width: 320,
@@ -35,15 +40,15 @@ class LoginPage extends Component {
     const { email, password } = this.state;
 
     return (
-      <div>
-        <h1>Log in page</h1>
+      <div className={scss.Container}>
+        <h1 className={scss.Title}>Log in page</h1>
 
         <form
           onSubmit={this.handleSubmit}
-          style={styles.form}
+          className={scss.form}
           autoComplete="off"
         >
-          <label style={styles.label}>
+          {/* <label style={styles.label}>
             E-mail
             <input
               type="email"
@@ -51,9 +56,22 @@ class LoginPage extends Component {
               value={email}
               onChange={this.handleChange}
             />
-          </label>
+          </label> */}
+          <div className={scss.Items}>
+            <TextField
+              className={scss.Items}
+              id="outlined-basic"
+              fullWidth
+              label="Email"
+              variant="outlined"
+              type="email"
+              name="email"
+              value={email}
+              onChange={this.handleChange}
+            />
+          </div>
 
-          <label style={styles.label}>
+          {/* <label style={styles.label}>
             Password
             <input
               type="password"
@@ -61,9 +79,25 @@ class LoginPage extends Component {
               value={password}
               onChange={this.handleChange}
             />
-          </label>
+          </label> */}
+          <div className={scss.Items}>
+            <TextField
+              id="outlined-basic"
+              fullWidth
+              label="Password"
+              variant="outlined"
+              type="password"
+              name="password"
+              value={password}
+              onChange={this.handleChange}
+            />
+          </div>
 
-          <button type="submit">Log in</button>
+          <div className={scss.Btn}>
+            <Button type="submit" variant="contained" size="big">
+              Log in
+            </Button>
+          </div>
         </form>
       </div>
     );

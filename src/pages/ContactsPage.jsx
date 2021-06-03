@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Section from '../components/share/Section'; 
+import Section from '../components/share/Section';
 import ContactForm from '../components/ContactForm';
 import ContactList from '../components/ContactList';
 import Filter from '../components/Filter';
@@ -8,7 +8,12 @@ import Modal from '../components/Modal';
 import IconButton from '../components/IconButton';
 import { ReactComponent as AddIcon } from '../icons/add.svg';
 import oper from '../redux/phonebook/contacts-operations';
-import { getLoading } from '../redux/phonebook/contacts-selectors';
+import {
+  getLoading,
+  getVisibleContacts,
+} from '../redux/phonebook/contacts-selectors';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import styles from './ContactsPage.module.scss';
 
 class App extends Component {
   state = {
@@ -26,10 +31,12 @@ class App extends Component {
   };
 
   render() {
+    const { length } = this.props.items;
+    const itemsLength = length;
     return (
       <Section>
         <IconButton onClick={this.toggleModal} arial-label="Add contact">
-          <h2>Create contact</h2>
+          <h2 className={styles.Title}>Create contact</h2>
           <AddIcon width="40" height="40" fill="green" />
         </IconButton>
         {this.state.showModal && (
@@ -38,9 +45,24 @@ class App extends Component {
             <ContactForm onCloseModal={this.toggleModal} />
           </Modal>
         )}
-        {this.props.isLoadingContacts && <h1>Loading...</h1>}
-        <Filter />
-        <ContactList />
+        {/* {this.props.isLoadingContacts && <h1>Loading...</h1>} */}
+        {this.props.isLoadingContacts && <CircularProgress />}
+        {itemsLength ? (
+          <>
+            <Filter />
+            <ContactList />
+          </>
+        ) : (
+          <p className={styles.Title}>
+            You don't have any contacts yet, please add some by clicking
+            <strong> Create contact</strong> button
+          </p>
+        )}
+
+        {/* <>
+          <Filter />
+          <ContactList />
+        </> */}
       </Section>
     );
   }
@@ -49,6 +71,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   // isLoadingContacts: state.contacts.loading,
   isLoadingContacts: getLoading(state),
+  items: getVisibleContacts(state),
 });
 
 const mapDispatchToProps = dispatch => ({

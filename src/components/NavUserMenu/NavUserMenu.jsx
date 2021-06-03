@@ -16,15 +16,29 @@ const styles = {
     fontWeight: 700,
     marginRight: 12,
   },
+  link: {
+    display: 'inline-block',
+    textDecoration: 'none',
+    padding: 12,
+    fontWeight: 700,
+    color: '#2A363B',
+    cursor: 'pointer',
+  },
 };
 const NavUserMenu = ({ avatar, name, onLogout }) => {
   return (
     <div style={styles.container}>
       <img src={avatar} alt="" width="32" style={styles.avatar} />
       <span style={styles.name}>Welcome, {name}</span>
-      <button type="button" onClick={onLogout}>
+      {/* <button type="button" onClick={onLogout}>
         Logout
-      </button>
+      </button> */}
+      {/* <Button type="submit" variant="contained" size="small" onClick={onLogout}>
+        Logout
+      </Button> */}
+      <p onClick={onLogout} style={styles.link}>
+        Logout
+      </p>
     </div>
   );
 };

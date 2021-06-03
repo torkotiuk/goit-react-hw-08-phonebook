@@ -1,14 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import ContactsPage from './pages/ContactsPage';
-import HomePage from './pages/HomePage';
+// import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Container from './components/share/Container';
 import AppBar from './components/AppBar';
 import authOps from './redux/auth/auth-operations';
 import { connect } from 'react-redux';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+
+const HomePage = lazy(() =>
+  import('./pages/HomePage' /* webpackChunkName: "home-page" */),
+);
 
 class App extends Component {
   componentDidMount() {
@@ -19,13 +25,28 @@ class App extends Component {
     return (
       <Container>
         <AppBar />
-
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/contacts" component={ContactsPage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/login" component={LoginPage} />
-        </Switch>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <PublicRoute
+              path="/register"
+              restricted
+              redirectTo={'/contacts'}
+              component={RegisterPage}
+            />
+            <PublicRoute
+              path="/login"
+              restricted
+              redirectTo={'/contacts'}
+              component={LoginPage}
+            />
+            <PrivateRoute
+              path="/contacts"
+              component={ContactsPage}
+              redirectTo="/login"
+            />
+          </Switch>
+        </Suspense>
       </Container>
     );
   }

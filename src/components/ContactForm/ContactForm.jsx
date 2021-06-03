@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import contactsActions from '../../redux/phonebook/contacts-operations';
 import store from '../../redux/store';
 import styles from './ContactForm.module.scss';
+import TextField from '@material-ui/core/TextField';
 
 class ContactForm extends Component {
   state = {
@@ -25,7 +26,7 @@ class ContactForm extends Component {
 
     const { name } = this.state;
     // const contacts = store.store.getState().contacts.items;
-    const contacts = store.getState().contacts.items;
+    const contacts = store.store.getState().contacts.items;
     if (contacts.some(contact => contact.name === name)) {
       alert(`${name} is already in contacts.`);
       return;
@@ -43,31 +44,25 @@ class ContactForm extends Component {
   render() {
     return (
       <form className="form" onSubmit={this.handleSubmit}>
-        <label htmlFor={this.nameInputId} className="form__label">
-          Name:
-          <input
-            className="Form_input"
-            id={this.nameInputId}
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </label>
-
-        <label htmlFor={this.numberInputId}>
-          Number:
-          <input
-            className="Form_input"
-            id={this.numberInputId}
-            type="tel"
-            name="number"
-            required
-            value={this.state.number}
-            onChange={this.handleChange}
-          />
-        </label>
-
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          type="text"
+          name="name"
+          value={this.state.name}
+          onChange={this.handleChange}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Number"
+          variant="outlined"
+          type="tel"
+          name="number"
+          required
+          value={this.state.number}
+          onChange={this.handleChange}
+        />
         <div className={styles.btnAdd}>
           <Button variant="contained" className="btn" type="submit">
             Add
